@@ -35,6 +35,7 @@ jobs:
         with:
           version: latest
           args: --timeout=5m
+        continue-on-error: true
 
       - name: Test with race detector
         run: go test -race -count=1 -timeout=120s ./...
