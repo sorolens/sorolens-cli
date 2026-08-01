@@ -1,0 +1,73 @@
+name: Bug report
+description: Something is not working as expected
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug report. Fill in as much
+        detail as you can so we can reproduce and fix the issue quickly.
+
+  - type: input
+    id: version
+    attributes:
+      label: sorolens-cli version
+      description: Run `sorolens version` and paste the output here.
+      placeholder: "sorolens dev"
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating system and architecture
+      placeholder: "Ubuntu 24.04 amd64 / macOS 14 arm64 / Windows 11 amd64"
+    validations:
+      required: true
+
+  - type: input
+    id: go_version
+    attributes:
+      label: Go version (if built from source)
+      placeholder: "go1.23.4"
+
+  - type: textarea
+    id: command
+    attributes:
+      label: Command you ran
+      description: Paste the exact command, replacing sensitive values with placeholders.
+      render: bash
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include any error messages or unexpected output.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Set SOROLENS_API_URL=...
+        2. Run `sorolens events CAAAA... --follow`
+        3. See error after ~10 seconds
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Logs, screenshots, or anything else that might help.
