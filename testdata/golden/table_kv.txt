@@ -1,0 +1,5 @@
+Field        Value
+-----        -----
+Alias        my-contract
+Network      mainnet
+Event Count  42
