@@ -1,0 +1,4 @@
+Key Hash  Durability  Ledgers Left
+--------  ----------  ------------
+deadbeef  persistent  12000
+cafebabe  temporary   800

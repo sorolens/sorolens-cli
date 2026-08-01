@@ -1,0 +1,64 @@
+version: 2
+
+before:
+  hooks:
+    - go mod tidy
+    - go generate ./...
+
+builds:
+  - id: sorolens
+    binary: sorolens
+    main: ./main.go
+    ldflags:
+      - -s -w
+      - -X github.com/sorolens/sorolens-cli/cmd.Version={{.Version}}
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+
+archives:
+  - id: sorolens
+    name_template: >-
+      sorolens_
+      {{- .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "arm64" }}arm64
+      {{- else }}{{ .Arch }}{{ end }}
+    format_overrides:
+      - goos: windows
+        formats:
+          - zip
+    files:
+      - LICENSE
+      - README.md
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+
+brews:
+  - name: sorolens
+    repository:
+      owner: sorolens
+      name: homebrew-tap
+    homepage: "https://github.com/sorolens/sorolens-cli"
+    description: "Terminal access to Soroban contract observability data"
+    license: "Apache-2.0"
+    install: |
+      bin.install "sorolens"
+    test: |
+      system "#{bin}/sorolens version"
