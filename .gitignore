@@ -1,0 +1,8 @@
+sorolens
+sorolens.exe
+dist/
+*.exe
+coverage/
+coverage.out
+*.test
+.env
