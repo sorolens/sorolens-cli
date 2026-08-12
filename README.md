@@ -143,6 +143,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
+## Contributors
+
+Thanks to everyone who has contributed to sorolens-cli!
+
+[![Contributors](https://contrib.rocks/image?repo=sorolens/sorolens-cli)](https://github.com/sorolens/sorolens-cli/graphs/contributors)
+
 ## License
 
 Apache 2.0 -- see [LICENSE](LICENSE).
