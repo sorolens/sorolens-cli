@@ -101,6 +101,38 @@ sorolens track CAAAA... --alias my-defi-contract
 sorolens track CAAAA... --alias my-defi-contract --json
 ```
 
+### watchdog
+
+Query the on-chain contract health watchdog. Five subcommands:
+`stats`, `list`, `status`, `alerts`, `history`.
+
+```bash
+# Overview of monitored contracts
+sorolens watchdog stats
+
+# List all monitored contracts
+sorolens watchdog list
+
+# Check specific contract health
+sorolens watchdog status CABC1234567890DEFGHIJKLMNOPQRSTUVWXYZ
+
+# View recent alerts (critical only)
+sorolens watchdog alerts --severity Critical --limit 10
+
+# View alerts for a specific contract
+sorolens watchdog alerts CABC1234567890DEFGHIJKLMNOPQRSTUVWXYZ
+
+# Health check history
+sorolens watchdog history CABC1234567890DEFGHIJKLMNOPQRSTUVWXYZ --limit 5
+
+# JSON output for scripting
+sorolens watchdog list --json | jq '.contracts[] | select(.status != "Healthy")'
+```
+
+Severity filter values: `Info`, `Warning`, `Critical`. All subcommands
+accept the global `--json` flag for machine-readable output. Contract
+IDs are truncated in table mode and printed in full when `--json`.
+
 ### version
 
 Print the CLI version.

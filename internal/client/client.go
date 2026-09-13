@@ -113,6 +113,87 @@ func (c *Client) GetStorage(ctx context.Context, id string) (*StorageResponse, e
 	return &v, nil
 }
 
+// GetWatchdogStats fetches watchdog aggregate stats.
+func (c *Client) GetWatchdogStats(ctx context.Context) (*WatchdogStats, error) {
+	var v WatchdogStats
+	if err := c.get(ctx, "/api/v1/watchdog/stats", &v); err != nil {
+		return nil, err
+	}
+	return &v, nil
+}
+
+// GetWatchdogContracts lists monitored contracts.
+func (c *Client) GetWatchdogContracts(ctx context.Context) (*WatchdogContractsResponse, error) {
+	var v WatchdogContractsResponse
+	if err := c.get(ctx, "/api/v1/watchdog/contracts", &v); err != nil {
+		return nil, err
+	}
+	return &v, nil
+}
+
+// GetWatchdogContract fetches one monitored contract.
+func (c *Client) GetWatchdogContract(ctx context.Context, id string) (*WatchdogContract, error) {
+	var v WatchdogContract
+	if err := c.get(ctx, "/api/v1/watchdog/contracts/"+url.PathEscape(id), &v); err != nil {
+		return nil, err
+	}
+	return &v, nil
+}
+
+// GetWatchdogHealth fetches health-check history for a contract.
+func (c *Client) GetWatchdogHealth(ctx context.Context, id string, limit int) (*WatchdogHealthResponse, error) {
+	q := url.Values{}
+	if limit > 0 {
+		q.Set("limit", strconv.Itoa(limit))
+	}
+	path := "/api/v1/watchdog/contracts/" + url.PathEscape(id) + "/health"
+	if len(q) > 0 {
+		path += "?" + q.Encode()
+	}
+	var v WatchdogHealthResponse
+	if err := c.get(ctx, path, &v); err != nil {
+		return nil, err
+	}
+	return &v, nil
+}
+
+// GetWatchdogContractAlerts fetches alerts for a specific contract.
+func (c *Client) GetWatchdogContractAlerts(ctx context.Context, id, severity string, limit int) (*WatchdogAlertsResponse, error) {
+	q := url.Values{}
+	if severity != "" {
+		q.Set("severity", severity)
+	}
+	if limit > 0 {
+		q.Set("limit", strconv.Itoa(limit))
+	}
+	path := "/api/v1/watchdog/contracts/" + url.PathEscape(id) + "/alerts"
+	if len(q) > 0 {
+		path += "?" + q.Encode()
+	}
+	var v WatchdogAlertsResponse
+	if err := c.get(ctx, path, &v); err != nil {
+		return nil, err
+	}
+	return &v, nil
+}
+
+// GetWatchdogAlerts fetches all alerts across contracts.
+func (c *Client) GetWatchdogAlerts(ctx context.Context, severity string) (*WatchdogAlertsResponse, error) {
+	q := url.Values{}
+	if severity != "" {
+		q.Set("severity", severity)
+	}
+	path := "/api/v1/watchdog/alerts"
+	if len(q) > 0 {
+		path += "?" + q.Encode()
+	}
+	var v WatchdogAlertsResponse
+	if err := c.get(ctx, path, &v); err != nil {
+		return nil, err
+	}
+	return &v, nil
+}
+
 // Track registers a contract for tracking.
 func (c *Client) Track(ctx context.Context, contractID, alias string) (*TrackResponse, error) {
 	req := TrackRequest{ContractID: contractID, Alias: alias}

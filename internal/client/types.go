@@ -54,6 +54,64 @@ type TrackResponse struct {
 	Message    string `json:"message"`
 }
 
+// WatchdogStats is the response from GET /api/v1/watchdog/stats.
+type WatchdogStats struct {
+	TotalMonitored int64 `json:"total_monitored"`
+	Healthy        int64 `json:"healthy"`
+	Degraded       int64 `json:"degraded"`
+	Unresponsive   int64 `json:"unresponsive"`
+	TotalAlerts    int64 `json:"total_alerts"`
+	CriticalAlerts int64 `json:"critical_alerts"`
+}
+
+// WatchdogContract is one monitored contract row.
+type WatchdogContract struct {
+	ContractID    string `json:"contract_id"`
+	Name          string `json:"name"`
+	Owner         string `json:"owner"`
+	Status        string `json:"status"`
+	LastCheck     string `json:"last_check"`
+	CheckInterval int64  `json:"check_interval"`
+	RegisteredAt  string `json:"registered_at"`
+	UpdatedAt     string `json:"updated_at"`
+}
+
+// WatchdogContractsResponse wraps the paginated contract list.
+type WatchdogContractsResponse struct {
+	Contracts  []WatchdogContract `json:"contracts"`
+	NextCursor *string            `json:"next_cursor"`
+}
+
+// WatchdogHealthCheck is one health check history entry.
+type WatchdogHealthCheck struct {
+	ContractID string `json:"contract_id"`
+	Status     string `json:"status"`
+	Metadata   string `json:"metadata"`
+	Ledger     int64  `json:"ledger"`
+	TxHash     string `json:"tx_hash"`
+	Timestamp  string `json:"timestamp"`
+}
+
+// WatchdogHealthResponse wraps the health-check history.
+type WatchdogHealthResponse struct {
+	HealthChecks []WatchdogHealthCheck `json:"health_checks"`
+}
+
+// WatchdogAlert is one alert row.
+type WatchdogAlert struct {
+	ContractID string `json:"contract_id"`
+	Severity   string `json:"severity"`
+	Message    string `json:"message"`
+	Ledger     int64  `json:"ledger"`
+	TxHash     string `json:"tx_hash"`
+	Timestamp  string `json:"timestamp"`
+}
+
+// WatchdogAlertsResponse wraps a list of alerts.
+type WatchdogAlertsResponse struct {
+	Alerts []WatchdogAlert `json:"alerts"`
+}
+
 // APIError represents an error response from the API.
 type APIError struct {
 	StatusCode int
